@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
+    const notesItem = [
+        {
+            "_id": "65ba873c25c05b6aa492f9b6",
+            "user": "65b7b99532661a90ba8fec9d",
+            "title": "routine",
+            "description": "Practice 2 leetcode questions",
+            "tag": "study",
+            "date": "2024-01-31T17:45:32.340Z",
+            "__v": 0
+          },
+          {
+            "_id": "65be3b0e28f37025bcac79b7",
+            "user": "65b7b99532661a90ba8fec9d",
+            "title": "routine 2",
+            "description": "Play badminton",
+            "tag": "sports",
+            "date": "2024-02-03T13:09:34.117Z",
+            "__v": 0
+          },
+          {
+            "_id": "65be3b2728f37025bcac79b9",
+            "user": "65b7b99532661a90ba8fec9d",
+            "title": "routine 3",
+            "description": "Build some project",
+            "tag": "Projects",
+            "date": "2024-02-03T13:09:59.095Z",
+            "__v": 0
+          },
+          {
+            "_id": "65be3b3e28f37025bcac79bb",
+            "user": "65b7b99532661a90ba8fec9d",
+            "title": "routine 4",
+            "description": "Learn machine learning",
+            "tag": "study",
+            "date": "2024-02-03T13:10:22.512Z",
+            "__v": 0
+          }
+    ];
+    const [notes,setNotes] = useState(notesItem)
     return (
-        <NoteContext.Provider value={{}}>
+        <NoteContext.Provider value={{notes, setNotes}}>
             {props.children}
         </NoteContext.Provider>
     );
