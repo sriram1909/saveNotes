@@ -40,9 +40,34 @@ const NoteState = (props) => {
             "__v": 0
           }
     ];
-    const [notes,setNotes] = useState(notesItem)
+    const [notes,setNotes] = useState(notesItem);
+
+    // Adding notes
+    const addNote = (title,description,tag) => {
+      const note = {
+        "_id": "65be3b3e28f37025bcac79bb",
+        "user": "65b7b99532661a90ba8fec9d",
+        "title": title,
+        "description": description,
+        "tag": tag,
+        "date": "2024-02-03T13:10:22.512Z",
+        "__v": 0
+      };
+      setNotes(notes.concat(note));
+    }
+
+    // To delete the notes of user
+    const deleteNote = () => {
+
+    }
+
+    // To fetch all the notes of user
+    const fetchNotes = () => {
+
+    }
+
     return (
-        <NoteContext.Provider value={{notes, setNotes}}>
+        <NoteContext.Provider value={{notes, addNote, deleteNote, fetchNotes}}>
             {props.children}
         </NoteContext.Provider>
     );
