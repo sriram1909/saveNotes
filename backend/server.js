@@ -10,6 +10,11 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
+// using cors
+const cors = require('cors')
+app.use(cors())
+
+
 // connecting with the database
 mongoose
     .connect(mongoURI)
