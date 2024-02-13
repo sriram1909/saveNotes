@@ -7,7 +7,7 @@ import AddNotes from './AddNotes';
 const Notes = () => {
     const context = useContext(NoteContext);
   // eslint-disable-next-line
-  const {notes,setNotes,fetchNotes} = context;
+  const {notes,fetchNotes} = context;
   const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {

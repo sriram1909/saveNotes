@@ -41,13 +41,13 @@ router.post('/signup',[
             password: secPass
         });
         //data that I will get from the website.
-        const data = {
+        const Data = {
             user: {
-                data: user.id
+                id: user.id
             }
         }
         //generating the java web token and checking it
-        const jwt_data = jwt.sign(data, secret_key);
+        const jwt_data = jwt.sign(Data, secret_key);
 
         res.json({jwt_data});
 
@@ -83,13 +83,13 @@ router.post('/login',[
         }
         
         // Creating a payload with users id to generate JWT Token
-        const data = {
+        const Data = {
             user: {
-                data: user.id
+                id: user.id
             }
         }
         // Generating token and sending it back in response.
-        const jwt_data = jwt.sign(data, secret_key);
+        const jwt_data = jwt.sign(Data, secret_key);
         res.json({jwt_data});
 
     }// If any other errors occur during the process.
@@ -104,7 +104,7 @@ router.post('/getuser',fetchuser, async (req,res) => {
     //fetchuser is a middleware we use to fetch user details from the database.
     try {
         // we saved the session details at above request at data object in line 86
-        const userId = req.user.data;
+        const userId = req.user.id;
         console.log(userId);
         const user = await User.findById(userId).select("-password");
         console.log(user);

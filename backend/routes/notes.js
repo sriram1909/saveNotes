@@ -7,7 +7,7 @@ const { body, validationResult } = require('express-validator');
 // Route-1 : fetching all the notes through route(/api/note/fetchallnotes)
 router.get('/fetchallnotes', fetchuser, async (req, res) => {
     try {
-        const notes = await Note.find({ user: req.user.data });
+        const notes = await Note.find({ user: req.user.id });
         res.json(notes)
     } catch (error) {
         console.error(error.message);
@@ -28,7 +28,7 @@ router.post('/addnotes', fetchuser, [
         }
         // Creating a new note
         const note = new Note({
-            title, description, tag, user: req.user.data// saved the session details of the user in data.
+            title, description, tag, user: req.user.id// saved the session details of the user in data.
         });
         // saving the note
         const newNote = await note.save();
@@ -75,21 +75,20 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
 // Route-4: Deleting a note through route(/api/note/deletenote/:id)
 router.delete('/deletenote/:id',fetchuser, async (req, res) => {
     try {
-        let note = await Note.findOne({ user: req.params.id });
+        let note = await Note.findOne({ _id: req.params.id });
         if (!note) {
             return res.status(404).send("Note not found.");
         }
-
         //checking if the user is deleting his notes not someone else's
-        if (note.user.toString() !== req.params.id) {
+        if (note.user.toString() !== req.user.data) {
             return res.status(401).send("Not Allowed");
         }
 
         //deleting the node from the database.
-        let noteId = note.id;
-        note = await Note.findByIdAndDelete(noteId);
-
-        res.json({ "Success":"Deletion successful",note:note });// Sending a success note upon deletion.
+        // let noteId = note._id;
+        // console.log(noteId)
+        note = await Note.findByIdAndDelete(req.params.id);
+        res.json({ "Success":"Deletion successful",note:note })// Sending a success note upon deletion.
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");

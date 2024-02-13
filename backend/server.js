@@ -29,7 +29,7 @@ app.use(express.json())
 
 //defining the route for the page.
 app.use('/api/auth',require('./routes/auth'));
-app.use('/api/note',require('./routes/notes'));
+app.use('/api/notes',require('./routes/notes'));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);   
