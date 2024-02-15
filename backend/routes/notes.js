@@ -53,13 +53,11 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
 
     try {
         //Finding the note of the user
-        // console.log(req.params.id);
         let note = await Note.findOne({ _id: req.params.id });
         if (!note) {
             return res.status(404).send("Note not found.");
         }
         //checking if the user is updating his notes not someone else's
-        // console.log(req.user.data);
         if (note.user.toString() !== req.user.data) {
             return res.status(401).send("Not Allowed");
         }
@@ -87,8 +85,6 @@ router.delete('/deletenote/:id',fetchuser, async (req, res) => {
         }
 
         //deleting the node from the database.
-        // let noteId = note._id;
-        // console.log(noteId)
         note = await Note.findByIdAndDelete(req.params.id);
         res.json({ "Success":"Deletion successful",note:note })// Sending a success note upon deletion.
     } catch (error) {
