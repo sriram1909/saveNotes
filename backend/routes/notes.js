@@ -53,12 +53,14 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
 
     try {
         //Finding the note of the user
-        let note = await Note.findOne({ user: req.params.id });
+        // console.log(req.params.id);
+        let note = await Note.findOne({ _id: req.params.id });
         if (!note) {
             return res.status(404).send("Note not found.");
         }
         //checking if the user is updating his notes not someone else's
-        if (note.user.toString() !== req.params.id) {
+        // console.log(req.user.data);
+        if (note.user.toString() !== req.user.data) {
             return res.status(401).send("Not Allowed");
         }
         // Updating the note by Id into new note.

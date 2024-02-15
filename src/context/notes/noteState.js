@@ -43,24 +43,34 @@ const NoteState = (props) => {
 
     const editNotes = async (id,title,description,tag) => {
       // API
+      try {
         const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViN2I5OTUzMjY2MWE5MGJhOGZlYzlkIn0sImlhdCI6MTcwNzgxOTkzNn0.mxgLUcXYNOPDWCNZxfmvmwCadmuZ0Zu1m7D3NFjYZrQ"
+            "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImRhdGEiOiI2NWI3Yjk5NTMyNjYxYTkwYmE4ZmVjOWQifSwiaWF0IjoxNzA2NzE5OTY3fQ.1Nb7GwsyXc8VmT7FTSjBkPXRGm1ryx4EdNPHhRXim9g"
           },
           body: JSON.stringify({title,description,tag}),
         });
+        console.log("In backend edit note")
         const json = await response.json();
-        console.log(json);
-      // Logic
-      for (let index = 0; index < notes.length; index++) {
-        const element = notes[index];
-        if(element._id === id){
-          element.title = title;
-          element.description = description;
-          element.tag = tag;
-        }
+        let newNotes = JSON.parse(JSON.stringify(notes))
+        console.log(newNotes);
+      // Logic to edit in client
+        for (let index = 0; index < newNotes.length; index++) {
+          const element = newNotes[index];
+          if (element._id === id) {
+            newNotes[index].title = title;
+            newNotes[index].description = description;
+            newNotes[index].tag = tag; 
+            break; 
+          }
+        }  
+        setNotes(newNotes);
+        return json;
+      } 
+      catch (error) {
+        console.log("Error : ",error);
       }
     }
 
