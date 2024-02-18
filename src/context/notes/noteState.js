@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NoteContext from "./noteContext";
+import Alerts from "../../components/Alerts";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000"
@@ -14,13 +15,13 @@ const NoteState = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViN2I5OTUzMjY2MWE5MGJhOGZlYzlkIn0sImlhdCI6MTcwNzgxOTkzNn0.mxgLUcXYNOPDWCNZxfmvmwCadmuZ0Zu1m7D3NFjYZrQ"
+          "auth-token": localStorage.getItem('token')
         },
         body: JSON.stringify({ title, description, tag }),
       });
       const note = await response.json();
       setNotes(notes.concat(note));
-    } catch (error) {
+    } catch (err) {
       console.log("Error message : ", err)
     }
 
@@ -33,12 +34,13 @@ const NoteState = (props) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViN2I5OTUzMjY2MWE5MGJhOGZlYzlkIn0sImlhdCI6MTcwNzgxOTkzNn0.mxgLUcXYNOPDWCNZxfmvmwCadmuZ0Zu1m7D3NFjYZrQ"
+          "auth-token": localStorage.getItem('token')
         },
       });
       const json = await response.json();
       const newNotes = notes.filter((note) => { return note._id !== id });
       setNotes(newNotes);
+      <Alerts message = "Note deleted successfuly"/>;
       return json;
     } catch (err) {
       console.log("Error message : ", err)
@@ -53,7 +55,7 @@ const NoteState = (props) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImRhdGEiOiI2NWI3Yjk5NTMyNjYxYTkwYmE4ZmVjOWQifSwiaWF0IjoxNzA2NzE5OTY3fQ.1Nb7GwsyXc8VmT7FTSjBkPXRGm1ryx4EdNPHhRXim9g"
+          "auth-token": localStorage.getItem('token')
         },
         body: JSON.stringify({ title, description, tag }),
       });
@@ -84,12 +86,12 @@ const NoteState = (props) => {
       const response = await fetch(`${host}/api/notes/fetchallnotes`, {
         method: "GET",
         headers: {
-          "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViN2I5OTUzMjY2MWE5MGJhOGZlYzlkIn0sImlhdCI6MTcwNzgxOTkzNn0.mxgLUcXYNOPDWCNZxfmvmwCadmuZ0Zu1m7D3NFjYZrQ"
+          "auth-token": localStorage.getItem('token')
         },
       });
       const json = await response.json();
       setNotes(json);
-    } catch (error) {
+    } catch (err) {
       console.log("Error message : ", err);
     }
 

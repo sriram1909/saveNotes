@@ -64,6 +64,7 @@ router.post('/login',[
     body('password','Password cannot be blank').exists()
 ],async (req, res) => {
     // Validations for our entry fields
+    let success = false;
     const result = validationResult(req);
     if (!result.isEmpty()) {
         res.send({ errors: result.array() });
@@ -74,12 +75,13 @@ router.post('/login',[
         let user = await User.findOne({email})
         // Checking if the email is valid.
         if(!user){
-            return res.status(400).json({error:'Please enter valid credentials'});
+            return res.status(400).json({success: false,error:'Please enter valid credentials'});
         }
         // Checking if the password is valid.
         const passCheck = await bcrypt.compare(password,user.password);
         if(!passCheck){
-            return res.status(400).json({error:'Please enter valid credentials'});
+            success = false;
+            return res.status(400).json({success, error:'Please enter valid credentials'});
         }
         
         // Creating a payload with users id to generate JWT Token
@@ -90,7 +92,8 @@ router.post('/login',[
         }
         // Generating token and sending it back in response.
         const jwt_data = jwt.sign(Data, secret_key);
-        res.json({jwt_data});
+        success = true;
+        res.json({success, jwt_data});
 
     }// If any other errors occur during the process.
     catch(error){

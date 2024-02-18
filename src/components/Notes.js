@@ -2,19 +2,31 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import NoteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
 import AddNotes from './AddNotes';
+import Alerts from './Alerts';
+import { useNavigate } from 'react-router-dom';
 
 
 const Notes = () => {
   const context = useContext(NoteContext);
+  const navigate = useNavigate();
   const { notes, fetchNotes, editNotes } = context;
-  const [dataFetched, setDataFetched] = useState(false);
+
+  // useEffect(() => {
+  //   if (!dataFetched) {
+  //     fetchNotes();
+  //     setDataFetched(true);
+  //   }
+  // }, [dataFetched, fetchNotes]);
 
   useEffect(() => {
-    if (!dataFetched) {
-      fetchNotes();
-      setDataFetched(true);
+    if(localStorage.getItem('token')){
+        fetchNotes();
     }
-  }, [dataFetched, fetchNotes]);
+    else{
+      navigate("/login");
+    }
+    // eslint-disable-next-line 
+  },[]);
 
   const ref = useRef(null)
   const refClose = useRef(null)
@@ -22,11 +34,12 @@ const Notes = () => {
 
   const updateNote = (currentNote) => {
     ref.current.click();
-    setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag })
+    setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag });
   }
 
   const handleClick = (e) => {
-    editNotes(note.id, note.etitle, note.edescription, note.etag)
+    editNotes(note.id, note.etitle, note.edescription, note.etag);
+    <Alerts message = "Note modified successfully."/>
     refClose.current.click();
   }
 
@@ -75,9 +88,15 @@ const Notes = () => {
 
       <div className='container row my-3'>
         <h2>Your Notes</h2>
-        {notes.map((note) => {
-          return <NoteItem key={note._id} updateNote={updateNote} note={note} />;
-        })}
+        {Array.isArray(notes) ? (
+          notes.map((note) => (
+            <NoteItem key={note._id} updateNote={updateNote} note={note} />
+          ))
+        ) : (
+          <div className="container">
+            {notes.length === 0 && "No Notes to display"}
+          </div>
+        )}
       </div>
     </>
   )
