@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [creds, setCreds] = useState({name: "", email: "", password: "", cpassword: ""});
-  const host = "http://localhost:5000";
+  const host = "https://savenotes.onrender.com";
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

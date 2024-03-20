@@ -3,7 +3,7 @@ import NoteContext from "./noteContext";
 import Alerts from "../../components/Alerts";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000"
+  const host = "https://savenotes.onrender.com"
   const notesItem = [];
   const [notes, setNotes] = useState(notesItem);
 
