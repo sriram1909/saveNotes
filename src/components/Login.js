@@ -4,7 +4,7 @@ import Alerts from './Alerts';
 
 const Login = () => {
   const [creds, setCreds] = useState({email: "",password: ""});
-  const host = "https://savenotes.onrender.com/";
+  const host = "https://savenotes.onrender.com";
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
