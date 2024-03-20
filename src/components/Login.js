@@ -4,7 +4,7 @@ import Alerts from './Alerts';
 
 const Login = () => {
   const [creds, setCreds] = useState({email: "",password: ""});
-  const host = "http://localhost:5000";
+  const host = "https://save-notes-azure.vercel.app";
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
