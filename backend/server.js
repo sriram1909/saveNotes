@@ -1,7 +1,5 @@
-// to make sure our database URI won't be available publicly
 require('dotenv').config();
 
-//importing mongoose and express
 const mongoose = require('mongoose');
 const mongoURI = process.env.MONGO_URL;
 const express = require('express');
